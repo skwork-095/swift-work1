@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -13,9 +14,42 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        
+        if Auth.auth().currentUser?.uid != nil {
+            //ログイン画面をスキップ
+            let window = UIWindow(windowScene: scene as! UIWindowScene)
+            self.window = window
+            window.makeKeyAndVisible()
+            
+//            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//            let viewController = storyBoard.instantiateViewController(identifier: "viewVC")
+//            let navigationVC = UINavigationController(rootViewController: viewController)
+//            window.rootViewController = navigationVC
+            
+            
+            
+            
+            
+            
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let loginViewController = storyBoard.instantiateViewController(identifier: "LoginVC")
+            let viewController = storyBoard.instantiateViewController(identifier: "viewVC")
+            let navigationVC = UINavigationController(rootViewController: loginViewController)
+            navigationVC.pushViewController(viewController, animated: true)
+            window.rootViewController = navigationVC
+        }else{
+            
+            let window = UIWindow(windowScene: scene as! UIWindowScene)
+            self.window = window
+            window.makeKeyAndVisible()
+            
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = storyBoard.instantiateViewController(identifier: "LoginVC")
+            let navigationVC = UINavigationController(rootViewController: viewController)
+            window.rootViewController = navigationVC
+            
+        }
+        
         guard let _ = (scene as? UIWindowScene) else { return }
     }
 
